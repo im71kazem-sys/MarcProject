@@ -3,242 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عماد السعدي الاحترافية | MARC21 & Z39.50 FIX</title>
-    <script src="https://cdn.sheetjs.com"></script>
+    <title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
+    <!-- مكتبة تصدير إكسل -->
+    <script src="https://cdnjs.cloudflare.com"></script>
     <style>
-        :root { --primary: #0f172a; --secondary: #e11d48; --accent: #f59e0b; --success: #10b981; --light: #f8fafc; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #e2e8f0; margin: 0; padding: 20px; }
-        .container { max-width: 1600px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 25px 50px rgba(0,0,0,0.1); border-top: 12px solid var(--primary); }
-        header { text-align: center; margin-bottom: 25px; }
-        .loc-link { background: #fffbeb; border: 1px solid #f59e0b; padding: 12px; border-radius: 8px; display: inline-block; text-decoration: none; color: #b45309; font-weight: bold; margin-bottom: 20px; }
-        .search-engine { background: var(--primary); padding: 25px; border-radius: 15px; display: flex; gap: 10px; margin-bottom: 25px; align-items: center; }
-        .search-engine input { flex: 1; padding: 15px; border-radius: 8px; border: none; font-size: 1.1em; outline: none; }
-        .btn-z39 { background: var(--accent); color: var(--primary); padding: 15px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .toolbar-group { background: var(--light); padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #cbd5e0; }
-        .btns-flex { display: flex; gap: 6px; flex-wrap: wrap; }
-        .btn-tag { padding: 8px 12px; font-size: 0.8em; background: white; border: 1px solid #94a3b8; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .marc-table { width: 100%; border-collapse: collapse; }
-        .marc-table th { background: var(--primary); color: white; padding: 15px; text-align: right; }
-        .marc-table td { border-bottom: 1px solid #e2e8f0; padding: 12px; }
-        .tag-input, .data-input, .toolbar-group input, .side-panel button { font-size: 1.1em !important; }
-        .tag-input { width: 60px; font-weight: bold; text-align: center; border: 2px solid #ddd; padding: 8px; border-radius: 6px; color: var(--secondary); }
-        .data-input { width: 100%; padding: 10px; border: 1px solid #94a3b8; border-radius: 6px; direction: rtl; }
-        .side-panel { display: flex; flex-direction: column; gap: 20px; }
-        .preview-box { background: #1e293b; color: #38bdf8; padding: 20px; border-radius: 15px; font-family: monospace; direction: ltr; text-align: left; min-height: 300px; border-left: 8px solid var(--accent); white-space: pre-wrap; }
-        footer { text-align: center; margin-top: 40px; padding: 25px; background: var(--primary); color: white; border-radius: 15px; }
-        #loader { display: none; color: var(--accent); font-weight: bold; margin-bottom: 10px; text-align: center; }
-        .modal { display: none; position: fixed; z-index: 1; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4); }
-        .modal-content { background-color: #fefefe; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px; }
-        .close { color: #aaa; float: right; font-size: 28px; font-weight: bold; }
-        .close:hover, .close:focus { color: black; text-decoration: none; cursor: pointer; }
-        .record-item { padding: 10px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center; }
-        .record-item button { margin-right: 10px; }
+        :root { --primary: #0f172a; --secondary: #e11d48; --accent: #f59e0b; --success: #10b981; --light: #f1f5f9; --border: #cbd5e1; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #334155; }
+        .container { max-width: 1550px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-top: 10px solid var(--primary); }
+        header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
+        header h1 { margin: 0; color: var(--primary); font-size: 1.8em; }
+        .loc-link { background: #fffbeb; border: 1px solid #f59e0b; padding: 8px 15px; border-radius: 8px; text-decoration: none; color: #b45309; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
+        .search-engine { background: var(--primary); padding: 20px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 25px; }
+        .search-engine input { flex: 1; padding: 12px 15px; border-radius: 6px; border: none; font-size: 1em; outline: none; }
+        .btn-z39 { background: var(--accent); color: var(--primary); padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .main-layout { display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        .toolbar-group { background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
+        .toolbar-group h4 { margin: 0 0 10px 0; font-size: 0.95em; color: #475569; }
+        .btns-flex { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-tag { padding: 6px 12px; font-size: 0.85em; background: white; border: 1px solid #94a3b8; border-radius: 4px; cursor: pointer; font-weight: 600; }
+        .marc-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .marc-table th { background: var(--primary); color: white; padding: 12px; text-align: right; font-size: 0.9em; }
+        .marc-table td { border-bottom: 1px solid #e2e8f0; padding: 10px; }
+        .tag-input { width: 55px; text-align: center; border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px; font-weight: bold; color: var(--secondary); }
+        .ind-input { width: 30px; text-align: center; border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px; margin: 0 2px; }
+        .data-input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; direction: rtl; font-size: 0.95em; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 20px; }
+        .preview-box { background: #1e293b; color: #38bdf8; padding: 20px; border-radius: 12px; font-family: monospace; direction: ltr; text-align: left; min-height: 350px; border-left: 6px solid var(--accent); white-space: pre-wrap; font-size: 0.9em; overflow-y: auto; }
+        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; color: white; }
+        .btn-save { background: #2563eb; }
+        .btn-excel { background: var(--success); }
+        .btn-clear { background: var(--secondary); }
+        .field-select { width: 100%; border: 2px solid var(--accent); padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>نظام عماد السعدي للفهرسة المتطورة (Z39.50 المحاكي)</h1>
-        <a href="https://www.loc.gov" target="_blank" class="loc-link">🔗 المرجع الرسمي: مكتبة الكونجرس (MARC21 Standards)</a>
+        <h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
+        <a href="https://www.bibalex.org" target="_blank" class="loc-link">🔗 مرجع مكتبة الإسكندرية - دليل مارك العربي</a>
     </header>
 
     <div class="search-engine">
-        <input type="text" id="queryInput" placeholder="أدخل العنوان أو ISBN (مثال: فهرسة المكتبات)...">
-        <button class="btn-z39" onclick="fetchZ39Data()">📡 جلب البيانات</button>
+        <input type="text" id="queryInput" placeholder="أدخل عنوان الكتاب أو الردمك للجلب التجريبي...">
+        <button class="btn-z39" onclick="fetchDemo()">📡 جلب بيانات محاكاة</button>
     </div>
-    <div id="loader">⏳ جاري الاتصال وجلب السجل الببليوغرافي...</div>
 
-    <div class="main-layout" style="display:grid; grid-template-columns: 1fr 400px; gap:30px;">
+    <div class="main-layout">
         <div class="editor">
-            
             <div class="toolbar-group">
-                <h4>الأرقام المعيارية والتصانيف (0XX)</h4>
-                <div class="btns-flex">
-                    <button class="btn-tag" onclick="addRow('020',' #','#','$a ')">020 ردمك</button>
-                    <button class="btn-tag" onclick="addRow('080',' #','#','$a ')">080 تصنيف UDC</button>
-                    <button class="btn-tag" onclick="addRow('082',' #','4','$a ')">082 تصنيف ديوي</button>
-                </div>
-            </div>
-            
-            <div class="toolbar-group">
-                <h4>المداخل والعناوين (1XX - 2XX)</h4>
-                <div class="btns-flex">
-                    <button class="btn-tag" onclick="addRow('100','1','#','$a ')">100 مؤلف</button>
-                    <button class="btn-tag" onclick="addRow('110','2','#','$a ')">110 هيئة</button>
-                    <button class="btn-tag" onclick="addRow('111','2','#','$a ')">111 مؤتمر</button>
-                    <button class="btn-tag" onclick="addRow('130','0','#','$a ')">130 ع. موحد</button>
-                    <button class="btn-tag" onclick="addRow('245','1','0','$a ')">245 عنوان</button>
-                    <button class="btn-tag" onclick="addRow('246','3','0','$a ')">246 ع. بديل</button>
-                </div>
-            </div>
-
-            <div class="toolbar-group">
-                <h4>الموضوعات والإضافات (6XX - 7XX)</h4>
-                <div class="btns-flex">
-                    <button class="btn-tag" onclick="addRow('600','1','4','$a ')">600 شخص موضوع</button>
-                    <button class="btn-tag" onclick="addRow('610','2','4','$a ')">610 هيئة موضوع</button>
-                    <button class="btn-tag" onclick="addRow('611','2','4','$a ')">611 مؤتمر موضوع</button>
-                    <button class="btn-tag" onclick="addRow('650','#','4','$a ')">650 موضوع عام</button>
-                    <button class="btn-tag" onclick="addRow('651','#','4','$a ')">651 جغرافـي</button>
-                    <button class="btn-tag" onclick="addRow('710','2','#','$a ')">710 هيئة ث.</button>
-                    <button class="btn-tag" onclick="addRow('711','2','#','$a ')">711 مؤتمر ث.</button>
-                </div>
-            </div>
-
-            <div class="toolbar-group">
-                <h4>مساعد مكتبة الإسكندرية السريع:</h4>
-                <select id="fieldSelector" class="data-input" style="width: 80%;" onchange="addSelectedField()">
-                    <option value="">-- اختر حقل من دليل مارك العربي --</option>
+                <h4>مساعد مكتبة الإسكندرية (اختر حقل لإضافته فوراً):</h4>
+                <select id="fieldSelector" class="field-select" onchange="addFromSelector()">
+                    <option value="">-- ابحث عن حقل (بيانات ببليوغرافية أو محلية 9XX) --</option>
                 </select>
             </div>
 
+            <div class="toolbar-group">
+                <h4>اختصارات سريعة:</h4>
+                <div class="btns-flex">
+                    <button class="btn-tag" onclick="addRow('020','#','#','$a ')">020 ردمك</button>
+                    <button class="btn-tag" onclick="addRow('100','1','#','$a ')">100 مؤلف</button>
+                    <button class="btn-tag" onclick="addRow('245','1','0','$a $b $c ')">245 عنوان</button>
+                    <button class="btn-tag" onclick="addRow('264','#','1','$a $b $c ')">264 نشر</button>
+                    <button class="btn-tag" onclick="addRow('300','#','#','$a $b $c ')">300 مادي</button>
+                    <button class="btn-tag" onclick="addRow('952','#','#','$p $a $b $c $y ')">952 جرد</button>
+                </div>
+            </div>
+
             <table class="marc-table">
-                <thead><tr><th>التاج</th><th>مؤشرات</th><th>البيانات</th><th style="width:40px"></th></tr></thead>
+                <thead><tr><th>التاج</th><th>مؤشرات</th><th>البيانات الفرعية</th><th></th></tr></thead>
                 <tbody id="marcBody"></tbody>
             </table>
         </div>
 
         <div class="side-panel">
-            <div class="preview-box" id="preview"></div>
-            <!-- زر الاستيراد الجديد -->
-            <input type="file" id="fileInput" style="display: none;" accept=".json" onchange="handleFileImport(event)">
-            <button class="btn-tag" style="background:#28a745; color:white; width:100%; padding:15px;" onclick="document.getElementById('fileInput').click()">⬆️ استيراد ملف MARC</button>
-
-            <button class="btn-tag" style="background:#007bff; color:white; width:100%; padding:15px;" onclick="saveCurrentRecordPrompt()">💾 حفظ السجل الحالي</button>
-            <button class="btn-tag" style="background:#5a6268; color:white; width:100%; padding:15px;" onclick="openManageRecordsModal()">📂 إدارة/تحميل السجلات السابقة</button>
-
-            <button class="btn-tag" style="background:var(--success); color:white; width:100%; padding:15px;" onclick="exportExcel()">📊 تصدير Excel</button>
-            <button class="btn-tag" style="background:var(--secondary); color:white; width:100%; margin-top:5px;" onclick="resetForm()">🔄 مسح السجل الحالي</button>
+            <div class="preview-box" id="preview">LDR 00000nam a2200000 i 4500</div>
+            <button class="action-btn btn-save" onclick="saveRecord()">💾 حفظ السجل محلياً</button>
+            <button class="action-btn btn-excel" onclick="exportExcel()">📊 تصدير إلى Excel</button>
+            <button class="action-btn btn-clear" onclick="clearForm()">🔄 تفريغ السجل</button>
         </div>
     </div>
-
-    <div id="manageRecordsModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeManageRecordsModal()">&times;</span>
-            <h2>إدارة السجلات المحفوظة</h2>
-            <div id="recordsList"></div>
-        </div>
-    </div>
-
-    <footer>برمجة وتطوير: <b>عماد كاظم السعدي</b> &copy; 2024. **جميع حقوق الملكية محفوظة لعماد كاظم السعدي.**</footer>
 </div>
 
 <script>
-    const marcBody = document.getElementById('marcBody');
-    const preview = document.getElementById('preview');
-    const loader = document.getElementById('loader');
-    const manageRecordsModal = document.getElementById('manageRecordsModal');
-    const recordsListDiv = document.getElementById('recordsList');
-    const LOCAL_STORAGE_KEY_CURRENT = 'emad_marc_data_current';
-    const LOCAL_STORAGE_KEY_LIST = 'emad_marc_saved_list';
+    // المصفوفة الشاملة للحقول
+    const bibAlexFields = [
+        { tag: '010', ind1: '#', ind2: '#', sub: '$a ', label: '010 - رقم ضبط مكتبة الكونجرس' },
+        { tag: '020', ind1: '#', ind2: '#', sub: '$a $q $c ', label: '020 - ردمك (ISBN)' },
+        { tag: '040', ind1: '#', ind2: '#', sub: '$a $b $e $c ', label: '040 - مصدر الفهرسة' },
+        { tag: '050', ind1: '#', ind2: '4', sub: '$a $b ', label: '050 - تصنيف مكتبة الكونجرس' },
+        { tag: '082', ind1: '0', ind2: '4', sub: '$a $b $2 ', label: '082 - تصنيف ديوي العشري' },
+        { tag: '100', ind1: '1', ind2: '#', sub: '$a $d $e $q ', label: '100 - مدخل رئيسي اسم شخص' },
+        { tag: '110', ind1: '2', ind2: '#', sub: '$a $b $c ', label: '110 - مدخل رئيسي اسم هيئة' },
+        { tag: '245', ind1: '1', ind2: '0', sub: '$a $b $c ', label: '245 - بيان العنوان' },
+        { tag: '250', ind1: '#', ind2: '#', sub: '$a $b ', label: '250 - بيان الطبعة' },
+        { tag: '260', ind1: '#', ind2: '#', sub: '$a $b $c ', label: '260 - بيان النشر (قديم)' },
+        { tag: '264', ind1: '#', ind2: '1', sub: '$a $b $c ', label: '264 - بيان النشر (RDA)' },
+        { tag: '300', ind1: '#', ind2: '#', sub: '$a $b $c $e ', label: '300 - الوصف المادي' },
+        { tag: '336', ind1: '#', ind2: '#', sub: '$a $b $2 ', label: '336 - نوع المحتوى' },
+        { tag: '337', ind1: '#', ind2: '#', sub: '$a $b $2 ', label: '337 - نوع الوسيط' },
+        { tag: '490', ind1: '1', ind2: '#', sub: '$a $v ', label: '490 - بيان السلسلة' },
+        { tag: '500', ind1: '#', ind2: '#', sub: '$a ', label: '500 - تبصرة عامة' },
+        { tag: '504', ind1: '#', ind2: '#', sub: '$a ', label: '504 - تبصرة ببليوغرافية' },
+        { tag: '505', ind1: '0', ind2: '#', sub: '$a $t ', label: '505 - تبصرة المحتويات' },
+        { tag: '650', ind1: '#', ind2: '4', sub: '$a $x $v $y $z ', label: '650 - موضوع مصطلح عام' },
+        { tag: '700', ind1: '1', ind2: '#', sub: '$a $d $e $t ', label: '700 - مدخل إضافي اسم شخص' },
+        { tag: '900', ind1: '#', ind2: '#', sub: '$a ', label: '900 - رقم تسجيل محلي' },
+        { tag: '942', ind1: '#', ind2: '#', sub: '$c ', label: '942 - نوع المادة (نظام)' },
+        { tag: '952', ind1: '#', ind2: '#', sub: '$a $b $c $p $y ', label: '952 - بيانات النسخ والباركود' }
+    ];
 
-    const MARC_GUIDE = {
-        "020": "## - ردمك (ISBN) ($a)", "080": "## - تصنيف UDC ($a)", "082": "## - تصنيف ديوي ($a)",
-        "100": "1# - مدخل رئيسي: اسم شخص ($a)", "110": "2# - مدخل رئيسي: اسم هيئة ($a)",
-        "111": "2# - مدخل رئيسي: اسم مؤتمر ($a)", "130": "0# - مدخل رئيسي: عنوان موحد ($a)",
-        "245": "10 - بيان العنوان والمسؤولية ($a)", "246": "30 - عنوان بديل ($a)",
-        "250": "## - بيان الطبعة ($a)", "264": "#1 - بيان النشر ($a)",
-        "300": "## - الوصف المادي ($a)", "490": "0# - بيان السلسلة ($a)",
-        "500": "## - تبصرة عامة ($a)", "504": "## - تبصرة المراجع والكشافات ($a)", "505": "0# - تبصرة المحتويات ($a)",
-        "600": "14 - موضوع: اسم شخص ($a)", "610": "24 - موضوع: اسم هيئة ($a)",
-        "611": "24 - موضوع: اسم مؤتمر ($a)", "650": "#4 - موضوع: رأس موضوع عام ($a)",
-        "651": "#4 - موضوع: اسم جغرافي ($a)", "700": "1# - مدخل إضافي: اسم شخص ($a)",
-        "710": "2# - مدخل إضافي: اسم هيئة مشاركة ($a)", "711": "2# - مدخل إضافي: اسم مؤتمر مشارك ($a)"
+    window.onload = () => {
+        const selector = document.getElementById('fieldSelector');
+        bibAlexFields.forEach((field, index) => {
+            let option = document.createElement('option');
+            option.value = index;
+            option.textContent = field.label;
+            selector.appendChild(option);
+        });
     };
 
-    const getDefaultSubfield = (tag) => { return '$a '; };
-
-    function addRow(tag, i1, i2, data) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
+    function addRow(tag = '', i1 = '#', i2 = '#', data = '') {
+        const tbody = document.getElementById('marcBody');
+        const row = tbody.insertRow();
+        row.innerHTML = `
             <td><input type="text" class="tag-input" value="${tag}" oninput="updatePreview()"></td>
-            <td><input type="text" style="width:20px; text-align:center;" value="${i1}"> <input type="text" style="width:20px; text-align:center;" value="${i2}"></td>
+            <td>
+                <input type="text" class="ind-input" value="${i1}" oninput="updatePreview()">
+                <input type="text" class="ind-input" value="${i2}" oninput="updatePreview()">
+            </td>
             <td><input type="text" class="data-input" value="${data}" oninput="updatePreview()"></td>
-            <td><button onclick="this.parentElement.parentElement.remove(); updatePreview()" style="color:red; border:none; background:none; cursor:pointer;">✖</button></td>
+            <td><button onclick="this.parentElement.parentElement.remove(); updatePreview();" style="border:none; background:none; cursor:pointer;">🗑️</button></td>
         `;
-        marcBody.appendChild(tr);
         updatePreview();
     }
 
-    // *** وظيفة استيراد الملفات الجديدة ***
-    function handleFileImport(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const importedData = JSON.parse(e.target.result);
-                if (Array.isArray(importedData)) {
-                    if(confirm("هل تريد مسح السجل الحالي قبل استيراد البيانات الجديدة؟")) {
-                        resetForm(false); // المسح دون تأكيد
-                    }
-                    importedData.forEach(item => {
-                        addRow(item.tag, item.i1, item.i2, item.val);
-                    });
-                    alert("تم استيراد البيانات بنجاح!");
-                } else {
-                    alert("صيغة الملف غير صحيحة. يجب أن يكون ملف JSON يحتوي على مصفوفة بيانات.");
-                }
-            } catch (error) {
-                alert("حدث خطأ أثناء قراءة الملف: تأكد من أنه ملف JSON صالح.");
-                console.error(error);
-            }
-            // Reset file input value
-            event.target.value = '';
-        };
-        reader.readAsText(file);
+    function addFromSelector() {
+        const idx = document.getElementById('fieldSelector').value;
+        if(idx === "") return;
+        const f = bibAlexFields[idx];
+        addRow(f.tag, f.ind1, f.ind2, f.sub);
+        document.getElementById('fieldSelector').value = "";
     }
-    // ************************************
 
-    async function fetchZ39Data() {
-        const q = document.getElementById('queryInput').value;
-        if(!q) { alert("يرجى إدخال نص للبحث"); return; }
-        loader.style.display = "block";
-        marcBody.innerHTML = ""; 
-        try {
-            const response = await fetch(`https://www.googleapis.com{encodeURIComponent(q)}`);
-            const data = await response.json();
-            if (data.items && data.items.length > 0) {
-                const book = data.items.volumeInfo;
-                const isbn13 = book.industryIdentifiers?.find(id => id.type === 'ISBN_13')?.identifier;
-                if (isbn13) { addRow('020', '#', '#', `$a ${isbn13}`); } 
-                if (book.authors) { addRow('100', '1', '#', `$a ${book.authors.join(', ')}`); }
-                addRow('245', '1', '0', `$a ${book.title} ${book.subtitle ? ': $b ' + book.subtitle : ''}`);
-                addRow('264', '#', '1', `$a $b ${book.publisher || 'غير محدد'} $c ${book.publishedDate || ''}`);
-                addRow('300', '#', '#', `$a ${book.pageCount || '0'} ص. : $b رسوم ؛ $c 24 سم`);
-                if (book.categories) { addRow('650', '#', '4', `$a ${book.categories.join(' -- ')}`); }
-            } else { alert("لم يتم العثور على نتائج!"); }
-        } catch (error) {
-            console.error("خطأ في جلب البيانات:", error);
-            alert("حدث خطأ أثناء الاتصال بالسيرفر، قد تكون المشكلة في الاستضافة المحلية أو API Limit.");
-        } finally {
-            loader.style.display = "none";
-            updatePreview();
-        }
+    function updatePreview() {
+        let text = "LDR 00000nam a2200000 i 4500\n";
+        document.querySelectorAll('#marcBody tr').forEach(row => {
+            const tag = row.querySelector('.tag-input').value;
+            const inds = row.querySelectorAll('.ind-input');
+            const data = row.querySelector('.data-input').value;
+            if(tag) text += `${tag} ${inds[0].value}${inds[1].value} ${data}\n`;
+        });
+        document.getElementById('preview').textContent = text;
     }
-    
-    function getCurrentTableData() { const rows = document.querySelectorAll('#marcBody tr');const dataToSave = [];rows.forEach(row => {const tag = row.querySelector('.tag-input').value;const inds = row.querySelectorAll('input[style*="width:20px"]');const i1 = inds.value || '#';const i2 = inds.value || '#';const val = row.querySelector('.data-input').value;dataToSave.push({ tag, i1, i2, val });});return dataToSave; }
-    function saveCurrentSession() { const data = getCurrentTableData(); localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT, JSON.stringify(data)); }
-    function loadCurrentSession() { const savedData = localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT); if (savedData) { const data = JSON.parse(savedData); data.forEach(item => { addRow(item.tag, item.i1, item.i2, item.val); }); } }
-    function saveCurrentRecordPrompt() { const recordName = prompt("من فضلك أدخل اسماً مميزاً لهذا السجل (مثال: كتاب الفهرسة 2024):"); if (recordName && recordName.trim() !== "") { const data = getCurrentTableData(); localStorage.setItem(`emad_marc_${recordName.trim()}`, JSON.stringify(data)); let savedList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST)) || []; if (!savedList.includes(recordName.trim())) { savedList.push(recordName.trim()); localStorage.setItem(LOCAL_STORAGE_KEY_LIST, JSON.stringify(savedList)); } alert(`تم حفظ السجل باسم: ${recordName}`); } else { alert("لم يتم الحفظ. الاسم مطلوب."); } }
-    function openManageRecordsModal() { recordsListDiv.innerHTML = ''; const savedList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST)) || []; if (savedList.length === 0) { recordsListDiv.innerHTML = '<p>لا يوجد سجلات محفوظة حالياً.</p>'; } else { savedList.forEach((name) => { const itemDiv = document.createElement('div'); itemDiv.classList.add('record-item'); itemDiv.innerHTML = `<span>${name}</span><div><button onclick="loadSpecificRecord('${name}')">تحميل</button><button onclick="deleteRecord('${name}')" style="color:red;">حذف</button></div>`; recordsListDiv.appendChild(itemDiv); }); } manageRecordsModal.style.display = "block"; }
-    function closeManageRecordsModal() { manageRecordsModal.style.display = "none"; }
-    function loadSpecificRecord(name) { const savedData = localStorage.getItem(`emad_marc_${name}`); if (savedData) { if (confirm(`هل أنت متأكد من تحميل السجل "${name}"؟ سيتم مسح السجل الحالي.`)) { marcBody.innerHTML = ""; const data = JSON.parse(savedData); data.forEach(item => { addRow(item.tag, item.i1, item.i2, item.val); }); updatePreview(); closeManageRecordsModal(); alert(`تم تحميل السجل: ${name}`); } } }
-    function deleteRecord(name) { if (confirm(`هل أنت متأكد من حذف السجل "${name}" نهائياً؟`)) { localStorage.removeItem(`emad_marc_${name}`); let savedList = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST)) || []; savedList = savedList.filter(item => item !== name); localStorage.setItem(LOCAL_STORAGE_KEY_LIST, JSON.stringify(savedList)); openManageRecordsModal(); alert(`تم حذف السجل: ${name}`); } }
-    function updatePreview() { const rows = document.querySelectorAll('#marcBody tr'); let previewText = "LDR 00000nam a2200000 u 4500\n"; rows.forEach(row => { const tag = row.querySelector('.tag-input').value; const indicators = Array.from(row.querySelectorAll('input[style*="width:20px"]')).map(i => i.value || '#').join(''); const data = row.querySelector('.data-input').value; previewText += `${tag} ${indicators} ${data}\n`; }); preview.textContent = previewText; saveCurrentSession(); }
-    function exportExcel() { const wb = XLSX.utils.book_new(); const data = [["Tag", "I1", "I2", "Data"]]; document.querySelectorAll('#marcBody tr').forEach(row => { const tag = row.querySelector('.tag-input').value; const inds = row.querySelectorAll('input[style*="width:20px"]'); const i1 = inds.value || '#'; const i2 = inds.value || '#'; const val = row.querySelector('.data-input').value; data.push([tag, i1, i2, val]); }); const ws = XLSX.utils.aoa_to_sheet(data); XLSX.utils.book_append_sheet(wb, ws, "MARC_Record"); XLSX.writeFile(wb, "MARC_Export_Emad.xlsx"); }
-    function resetForm(confirmAction = true) { if(!confirmAction || confirm("هل أنت متأكد من مسح جميع البيانات في السجل الحالي؟")) { marcBody.innerHTML = ""; localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT); updatePreview(); } }
-    function populateSelector() { const selector = document.getElementById('fieldSelector'); for (let tag in MARC_GUIDE) { let opt = document.createElement('option'); opt.value = tag; opt.innerHTML = MARC_GUIDE[tag]; selector.appendChild(opt); } }
-    function addSelectedField() { const tag = document.getElementById('fieldSelector').value; if (!tag) return; const description = MARC_GUIDE[tag]; const indicatorsMatch = description.match(/(\w#|\w\d|\d#|\d\d)\s-/); let i1 = '#', i2 = '#'; if (indicatorsMatch) { i1 = indicatorsMatch.charAt(0); i2 = indicatorsMatch.charAt(1); } addRow(tag, i1, i2, getDefaultSubfield(tag)); document.getElementById('fieldSelector').value = ""; }
 
-    window.onload = () => {
-        populateSelector();
-        loadCurrentSession();
-    };
+    function fetchDemo() {
+        const q = document.getElementById('queryInput').value || "الفهرسة في العصر الرقمي";
+        clearForm();
+        addRow('020', '#', '#', '$a 9789953683119');
+        addRow('100', '1', '#', '$a السعدي، عماد.');
+        addRow('245', '1', '0', `$a ${q} : $b دراسة في قواعد مارك 21 / $c تأليف عماد السعدي.`);
+        addRow('264', '#', '1', '$a الإسكندرية : $b دار المعرفة الجامعية، $c 2024.');
+        addRow('300', '#', '#', '$a 250 ص. ؛ $c 24 سم.');
+        addRow('952', '#', '#', '$a MAIN $b LIB $c SHELF-1 $p 50001234 $y BOOK');
+    }
+
+    function exportExcel() {
+        let rows = [["التاج", "مؤشر 1", "مؤشر 2", "الحقول الفرعية"]];
+        document.querySelectorAll('#marcBody tr').forEach(tr => {
+            const tag = tr.querySelector('.tag-input').value;
+            const inds = tr.querySelectorAll('.ind-input');
+            const data = tr.querySelector('.data-input').value;
+            rows.push([tag, inds[0].value, inds[1].value, data]);
+        });
+        const worksheet = XLSX.utils.aoa_to_sheet(rows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "MARC_Data");
+        XLSX.writeFile(workbook, "Emad_AlSaadi_Cataloging.xlsx");
+    }
+
+    function saveRecord() {
+        localStorage.setItem('last_record', document.getElementById('preview').textContent);
+        alert("تم حفظ السجل في ذاكرة المتصفح بنجاح!");
+    }
+
+    function clearForm() {
+        document.getElementById('marcBody').innerHTML = '';
+        updatePreview();
+    }
 </script>
 
 </body>
 </html>
-
