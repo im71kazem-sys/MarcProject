@@ -165,15 +165,16 @@
         document.getElementById('preview').textContent = text;
     }
 
-    function fetchDemo() {
+   function fetchDemo() {
         const q = document.getElementById('queryInput').value || "الفهرسة في العصر الرقمي";
         clearForm();
-        addRow('020', '#', '#', '$a 9789953683119');
-        addRow('100', '1', '#', '$a ');
-        addRow('245', '1', '0', `$a ${q} : $b دراسة في قواعد مارك 21 / $c تأليف عماد السعدي.`);
-        addRow('264', '#', '1', '$a الإسكندرية : $b دار المعرفة الجامعية، $c 2024.');
-        addRow('300', '#', '#', '$a 250 ص. ؛ $c 24 سم.');
-        addRow('952', '#', '#', '$a MAIN $b LIB $c SHELF-1 $p 50001234 $y BOOK');
+        addRow('020', '#', '#', '$a '); // اترك الردمك فارغاً
+        addRow('100', '1', '#', '$a '); // اترك المؤلف فارغاً
+        addRow('245', '1', '0', `$a ${q} : $b / $c .`); // اترك الأجزاء الأخرى من العنوان فارغة
+        addRow('264', '#', '1', '$a : $b ، $c .'); // اترك بيانات النشر فارغة
+        addRow('300', '#', '#', '$a  ؛ $c .'); // اترك الوصف المادي فارغاً
+        addRow('952', '#', '#', '$a MAIN $b LIB $c SHELF-1 $p 50001234 $y BOOK'); // بيانات جرد محلية قد تكون ثابتة
+    }
     }
 
     function exportExcel() {
@@ -203,6 +204,7 @@
 
 </body>
 </html>
+
 
 
 
