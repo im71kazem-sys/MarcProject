@@ -6,6 +6,28 @@
     <title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
     <!-- مكتبة تصدير إكسل -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    function exportText() {
+    // نجلب النص الكامل من صندوق المعاينة
+    const marcText = document.getElementById('preview').textContent;
+
+    // نحول النص إلى ملف Blob
+    const blob = new Blob([marcText], { type: "text/plain;charset=utf-8;" });
+
+    // إنشاء رابط تحميل مؤقت
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+
+    // اسم الملف
+    link.download = "Emad_AlSaadi_MARC_Record.txt";
+
+    // تنفيذ التحميل
+    document.body.appendChild(link);
+    link.click();
+
+    // تنظيف
+    document.body.removeChild(link);
+}
+    <button class="action-btn btn-excel" onclick="exportText()">📄 تصدير بصيغة Text (.txt)</button>
     <style>
         :root { --primary: #0f172a; --secondary: #e11d48; --accent: #f59e0b; --success: #10b981; --light: #f1f5f9; --border: #cbd5e1; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #334155; }
@@ -208,6 +230,7 @@
 
 </body>
 </html>
+
 
 
 
