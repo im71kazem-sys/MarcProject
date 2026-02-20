@@ -240,11 +240,42 @@ document.getElementById(tabId).classList.add('active');
 }
 
 const bibAlexFields=[
+const bibAlexFields = [
+
+{tag:'001',ind1:'#',ind2:'#',sub:'',label:'001 - رقم تحكم'},
+{tag:'005',ind1:'#',ind2:'#',sub:'',label:'005 - تاريخ تعديل'},
+{tag:'008',ind1:'#',ind2:'#',sub:'',label:'008 - بيانات ثابتة'},
+
 {tag:'020',ind1:'#',ind2:'#',sub:'$a ',label:'020 - ردمك'},
-{tag:'100',ind1:'1',ind2:'#',sub:'$a ',label:'100 - مؤلف'},
-{tag:'245',ind1:'1',ind2:'0',sub:'$a $b $c ',label:'245 - عنوان'},
-{tag:'264',ind1:'#',ind2:'1',sub:'$a $b $c ',label:'264 - نشر'},
-{tag:'300',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'300 - مادي'}
+{tag:'040',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'040 - مصدر الفهرسة'},
+{tag:'082',ind1:'0',ind2:'#',sub:'$a ',label:'082 - ديوي'},
+
+{tag:'100',ind1:'1',ind2:'#',sub:'$a ',label:'100 - مدخل رئيسي شخص'},
+{tag:'110',ind1:'2',ind2:'#',sub:'$a ',label:'110 - هيئة'},
+{tag:'111',ind1:'2',ind2:'#',sub:'$a ',label:'111 - مؤتمر'},
+
+{tag:'245',ind1:'1',ind2:'0',sub:'$a $b $c ',label:'245 - بيان العنوان'},
+{tag:'246',ind1:'3',ind2:'#',sub:'$a ',label:'246 - عنوان آخر'},
+{tag:'250',ind1:'#',ind2:'#',sub:'$a ',label:'250 - بيان الطبعة'},
+{tag:'264',ind1:'#',ind2:'1',sub:'$a $b $c ',label:'264 - بيانات النشر'},
+{tag:'300',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'300 - الوصف المادي'},
+
+{tag:'490',ind1:'1',ind2:'#',sub:'$a ',label:'490 - السلسلة'},
+{tag:'500',ind1:'#',ind2:'#',sub:'$a ',label:'500 - ملاحظة عامة'},
+{tag:'504',ind1:'#',ind2:'#',sub:'$a ',label:'504 - مراجع'},
+
+{tag:'600',ind1:'1',ind2:'#',sub:'$a ',label:'600 - موضوع شخص'},
+{tag:'610',ind1:'2',ind2:'#',sub:'$a ',label:'610 - موضوع هيئة'},
+{tag:'650',ind1:'#',ind2:'0',sub:'$a ',label:'650 - موضوع عام'},
+{tag:'651',ind1:'#',ind2:'0',sub:'$a ',label:'651 - موضوع جغرافي'},
+
+{tag:'700',ind1:'1',ind2:'#',sub:'$a ',label:'700 - مدخل إضافي شخص'},
+{tag:'710',ind1:'2',ind2:'#',sub:'$a ',label:'710 - مدخل إضافي هيئة'},
+
+{tag:'900',ind1:'#',ind2:'#',sub:'$a ',label:'900 - حقل محلي'},
+{tag:'942',ind1:'#',ind2:'#',sub:'$a ',label:'942 - بيانات كوها'},
+{tag:'952',ind1:'#',ind2:'#',sub:'$a ',label:'952 - بيانات النسخة'}
+
 ];
 
 window.onload=()=>{
@@ -336,3 +367,4 @@ updatePreview();
 
 </body>
 </html>
+
