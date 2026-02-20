@@ -29,12 +29,45 @@
 }
     <button class="action-btn btn-excel" onclick="exportText()">📄 تصدير بصيغة Text (.txt)</button>
     <style>
+        .tabs-bar{
+    display:flex;
+    gap:10px;
+    margin-bottom:20px;
+}
+.tabs-bar button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    background:#e2e8f0;
+    font-weight:bold;
+}
+.tab-content{
+    display:none;
+}
+.tab-content.active{
+    display:block;
+}
+.course-box{
+    background:#f8fafc;
+    padding:20px;
+    border-radius:12px;
+    border:1px solid #cbd5e1;
+    margin-bottom:15px;
+}
         :root { --primary: #0f172a; --secondary: #e11d48; --accent: #f59e0b; --success: #10b981; --light: #f1f5f9; --border: #cbd5e1; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #334155; }
         .container { max-width: 1550px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-top: 10px solid var(--primary); }
         header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
         header h1 { margin: 0; color: var(--primary); font-size: 1.8em; }
         .loc-link { background: #fffbeb; border: 1px solid #f59e0b; padding: 8px 15px; border-radius: 8px; text-decoration: none; color: #b45309; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
+        <div class="tabs-bar">
+    <button onclick="showTab('editor')">📘 محرر MARC</button>
+    <button onclick="showTab('courses')">🎓 المقررات</button>
+    <button onclick="showTab('exercises')">🧠 تمارين</button>
+    <button onclick="showTab('examples')">📂 أمثلة</button>
+    <button onclick="showTab('analysis')">📊 تحليل</button>
+</div>
         .search-engine { background: var(--primary); padding: 20px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 25px; }
         .search-engine input { flex: 1; padding: 12px 15px; border-radius: 6px; border: none; font-size: 1em; outline: none; }
         .btn-z39 { background: var(--accent); color: var(--primary); padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
@@ -59,13 +92,37 @@
     </style>
 </head>
 <body>
+<div id="courses" class="tab-content">
+    <div class="course-box">
+        <h3>الوحدة 1: مدخل إلى MARC21</h3>
+        <p>• مفهوم التسجيل الببليوغرافي</p>
+        <p>• البنية العامة للسجل (LDR – Control Fields – Data Fields)</p>
+        <p>• الفرق بين AACR2 و RDA</p>
+    </div>
 
+    <div class="course-box">
+        <h3>الوحدة 2: الحقول الأساسية</h3>
+        <p>020 – ردمك</p>
+        <p>100 – مدخل رئيسي اسم شخص</p>
+        <p>245 – بيان العنوان</p>
+        <p>264 – بيانات النشر</p>
+        <p>300 – الوصف المادي</p>
+    </div>
+
+    <div class="course-box">
+        <h3>الوحدة 3: الموضوعات</h3>
+        <p>600 – موضوع اسم شخص</p>
+        <p>610 – موضوع هيئة</p>
+        <p>650 – مصطلح موضوعي</p>
+    </div>
+</div>
 <div class="container">
     <header>
        <header>
         <h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
         <a href="https://www.bibalex.org/als/marcA/homepage/home.html" target="_blank" class="loc-link">🔗 مرجع مكتبة الإسكندرية - دليل مارك العربي</a>
     </header>
+        <div id="editor" class="tab-content active">
     <div class="search-engine">
         <input type="text" id="queryInput" placeholder="أدخل عنوان الكتاب أو الردمك للجلب التجريبي...">
         <button class="btn-z39" onclick="fetchDemo()">📡 جلب بيانات محاكاة</button>
@@ -108,6 +165,12 @@
 </div>
 
 <script>
+    function showTab(tabId){
+    document.querySelectorAll('.tab-content').forEach(tab=>{
+        tab.classList.remove('active');
+    });
+    document.getElementById(tabId).classList.add('active');
+}
     // المصفوفة الشاملة للحقول
     const bibAlexFields = [
         { tag: '010', ind1: '#', ind2: '#', sub: '$a ', label: '010 - رقم ضبط مكتبة الكونجرس' },
@@ -230,6 +293,7 @@
 
 </body>
 </html>
+
 
 
 
