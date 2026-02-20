@@ -3,366 +3,265 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-
+<title>منصة عماد السعدي الاحترافية | MARC21 & Z39.50 FIX</title>
+<script src="https://cdn.sheetjs.com"></script>
 <style>
-:root{
---primary:#0f172a;
---secondary:#e11d48;
---accent:#f59e0b;
---success:#10b981;
---light:#f1f5f9;
---border:#cbd5e1;
-}
-
-body{
-font-family:'Segoe UI',Tahoma;
-background:#f8fafc;
-margin:0;
-padding:20px;
-color:#334155;
-}
-
-.container{
-max-width:1550px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:20px;
-box-shadow:0 20px 40px rgba(0,0,0,0.08);
-border-top:10px solid var(--primary);
-}
-
+:root{--primary:#0f172a;--secondary:#e11d48;--accent:#f59e0b;--success:#10b981;--light:#f8fafc;}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#e2e8f0;margin:0;padding:20px;}
+.container{max-width:1600px;margin:auto;background:white;padding:30px;border-radius:20px;box-shadow:0 25px 50px rgba(0,0,0,0.1);border-top:12px solid var(--primary);}
 header{text-align:center;margin-bottom:25px;}
-
-.tabs-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
-.tabs-bar button{padding:10px 15px;border:none;border-radius:8px;cursor:pointer;background:#e2e8f0;font-weight:bold;}
-
-.tab-content{display:none;}
-.tab-content.active{display:block;}
-
-.course-box{
-background:#f8fafc;
-padding:20px;
-border-radius:12px;
-border:1px solid var(--border);
-margin-bottom:15px;
-}
-
-.search-engine{
-background:var(--primary);
-padding:20px;
-border-radius:12px;
-display:flex;
-gap:10px;
-margin-bottom:25px;
-}
-
-.search-engine input{
-flex:1;
-padding:12px;
-border-radius:6px;
-border:none;
-}
-
-.btn-z39{
-background:var(--accent);
-color:black;
-padding:12px 25px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.main-layout{
-display:grid;
-grid-template-columns:1fr 420px;
-gap:30px;
-}
-
-.toolbar-group{
-background:var(--light);
-padding:15px;
-border-radius:10px;
-margin-bottom:15px;
-border:1px solid var(--border);
-}
-
-.btn-tag{
-padding:6px 12px;
-font-size:0.85em;
-background:white;
-border:1px solid #94a3b8;
-border-radius:4px;
-cursor:pointer;
-font-weight:600;
-}
-
-.marc-table{
-width:100%;
-border-collapse:collapse;
-margin-top:10px;
-}
-
-.marc-table th{
-background:var(--primary);
-color:white;
-padding:10px;
-}
-
-.marc-table td{
-border-bottom:1px solid #e2e8f0;
-padding:8px;
-}
-
-.tag-input{width:55px;text-align:center;}
-.ind-input{width:30px;text-align:center;}
-.data-input{width:100%;}
-
-.side-panel{display:flex;flex-direction:column;gap:15px;}
-
-.preview-box{
-background:#1e293b;
-color:#38bdf8;
-padding:20px;
-border-radius:12px;
-font-family:monospace;
-direction:ltr;
-min-height:350px;
-white-space:pre-wrap;
-}
-
-.action-btn{
-width:100%;
-padding:14px;
-border:none;
-border-radius:8px;
-cursor:pointer;
-font-weight:bold;
-color:white;
-}
-
-.btn-save{background:#2563eb;}
-.btn-excel{background:var(--success);}
-.btn-clear{background:var(--secondary);}
-
-.field-select{
-width:100%;
-padding:10px;
-border-radius:6px;
-font-weight:bold;
-}
+.loc-link{background:#fffbeb;border:1px solid #f59e0b;padding:12px;border-radius:8px;display:inline-block;text-decoration:none;color:#b45309;font-weight:bold;margin-bottom:20px;}
+.search-engine{background:var(--primary);padding:25px;border-radius:15px;display:flex;gap:10px;margin-bottom:25px;align-items:center;}
+.search-engine input{flex:1;padding:15px;border-radius:8px;border:none;font-size:1.1em;outline:none;}
+.btn-z39{background:var(--accent);color:var(--primary);padding:15px 30px;border:none;border-radius:8px;cursor:pointer;font-weight:bold;}
+.toolbar-group{background:var(--light);padding:15px;border-radius:12px;margin-bottom:12px;border:1px solid #cbd5e0;}
+.btns-flex{display:flex;gap:6px;flex-wrap:wrap;}
+.btn-tag{padding:8px 12px;font-size:0.8em;background:white;border:1px solid #94a3b8;border-radius:5px;cursor:pointer;font-weight:bold;}
+.marc-table{width:100%;border-collapse:collapse;}
+.marc-table th{background:var(--primary);color:white;padding:15px;text-align:right;}
+.marc-table td{border-bottom:1px solid #e2e8f0;padding:12px;}
+.tag-input,.data-input,.toolbar-group input{font-size:1.1em !important;}
+.tag-input{width:60px;font-weight:bold;text-align:center;border:2px solid #ddd;padding:8px;border-radius:6px;color:var(--secondary);}
+.data-input{width:100%;padding:10px;border:1px solid #94a3b8;border-radius:6px;direction:rtl;}
+.side-panel{display:flex;flex-direction:column;gap:20px;}
+.preview-box{background:#1e293b;color:#38bdf8;padding:20px;border-radius:15px;font-family:monospace;direction:ltr;text-align:left;min-height:300px;border-left:8px solid var(--accent);white-space:pre-wrap;}
+footer{text-align:center;margin-top:40px;padding:25px;background:var(--primary);color:white;border-radius:15px;}
+#loader{display:none;color:var(--accent);font-weight:bold;margin-bottom:10px;text-align:center;}
+.modal{display:none;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;background-color:rgba(0,0,0,0.4);}
+.modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:80%;max-width:500px;border-radius:10px;}
+.close{color:#aaa;float:right;font-size:28px;font-weight:bold;}
+.close:hover,.close:focus{color:black;text-decoration:none;cursor:pointer;}
+.record-item{padding:10px;border-bottom:1px solid #ddd;display:flex;justify-content:space-between;align-items:center;}
+.record-item button{margin-right:10px;}
 </style>
 </head>
-
 <body>
 <div class="container">
-
 <header>
-<h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
+<h1>نظام عماد السعدي للفهرسة المتطورة (Z39.50 المحاكي)</h1>
+<a href="https://www.loc.gov" target="_blank" class="loc-link">🔗 المرجع الرسمي: مكتبة الكونجرس (MARC21 Standards)</a>
 </header>
 
-<div class="tabs-bar">
-<button onclick="showTab('editor')">📘 محرر MARC</button>
-<button onclick="showTab('courses')">🎓 المقررات</button>
-</div>
-
-<!-- المحرر -->
-<div id="editor" class="tab-content active">
-
 <div class="search-engine">
-<input type="text" id="queryInput" placeholder="أدخل عنوان الكتاب...">
-<button class="btn-z39" onclick="fetchDemo()">📡 جلب بيانات</button>
+<input type="text" id="queryInput" placeholder="أدخل العنوان أو ISBN...">
+<button class="btn-z39" onclick="fetchZ39Data()">📡 جلب البيانات</button>
+</div>
+<div id="loader">⏳ جاري الاتصال وجلب السجل الببليوغرافي...</div>
+
+<div class="main-layout" style="display:grid; grid-template-columns: 1fr 400px; gap:30px;">
+<div class="editor">
+
+<div class="toolbar-group">
+<h4>المداخل والعناوين (1XX - 2XX)</h4>
+<div class="btns-flex">
+<button class="btn-tag" onclick="addRow('100','1','#','')">100 مؤلف</button>
+<button class="btn-tag" onclick="addRow('110','2','#','')">110 هيئة</button>
+<button class="btn-tag" onclick="addRow('111','2','#','')">111 مؤتمر</button>
+<button class="btn-tag" onclick="addRow('130','0','#','')">130 ع. موحد</button>
+<button class="btn-tag" onclick="addRow('245','1','0','')">245 عنوان</button>
+<button class="btn-tag" onclick="addRow('246','3','0','')">246 ع. بديل</button>
+</div>
 </div>
 
-<div class="main-layout">
-
-<div>
 <div class="toolbar-group">
-<select id="fieldSelector" class="field-select" onchange="addFromSelector()">
-<option value="">-- اختر حقل --</option>
+<h4>الموضوعات والإضافات (6XX - 7XX)</h4>
+<div class="btns-flex">
+<button class="btn-tag" onclick="addRow('600','1','4','')">600 شخص موضوع</button>
+<button class="btn-tag" onclick="addRow('610','2','4','')">610 هيئة موضوع</button>
+<button class="btn-tag" onclick="addRow('611','2','4','')">611 مؤتمر موضوع</button>
+<button class="btn-tag" onclick="addRow('650','#','4','')">650 موضوع عام</button>
+<button class="btn-tag" onclick="addRow('651','#','4','')">651 جغرافـي</button>
+<button class="btn-tag" onclick="addRow('710','2','#','')">710 هيئة ث.</button>
+<button class="btn-tag" onclick="addRow('711','2','#','')">711 مؤتمر ث.</button>
+</div>
+</div>
+
+<div class="toolbar-group">
+<h4>مساعد مكتبة الإسكندرية السريع:</h4>
+<select id="fieldSelector" class="data-input" style="width: 80%;" onchange="addSelectedField()">
+<option value="">-- اختر حقل من دليل مارك العربي --</option>
 </select>
 </div>
 
 <table class="marc-table">
-<thead>
-<tr>
-<th>التاج</th>
-<th>مؤشرات</th>
-<th>البيانات</th>
-<th></th>
-</tr>
-</thead>
+<thead><tr><th>التاج</th><th>مؤشرات</th><th>البيانات</th><th style="width:40px"></th></tr></thead>
 <tbody id="marcBody"></tbody>
 </table>
 </div>
 
 <div class="side-panel">
-<div class="preview-box" id="preview">
-LDR 00000nam a2200000 i 4500
-</div>
-
-<button class="action-btn btn-save" onclick="saveRecord()">💾 حفظ</button>
-<button class="action-btn btn-excel" onclick="exportExcel()">📊 Excel</button>
-<button class="action-btn btn-excel" onclick="exportText()">📄 Text</button>
-<button class="action-btn btn-clear" onclick="clearForm()">🔄 تفريغ</button>
-</div>
-
+<div class="preview-box" id="preview"></div>
+<button class="btn-tag" style="background:#007bff;color:white;width:100%;padding:15px;" onclick="saveCurrentRecordPrompt()">💾 حفظ السجل الحالي</button>
+<button class="btn-tag" style="background:#5a6268;color:white;width:100%;padding:15px;" onclick="openManageRecordsModal()">📂 إدارة/تحميل السجلات السابقة</button>
+<button class="btn-tag" style="background:var(--success);color:white;width:100%;padding:15px;" onclick="exportExcel()">📊 تصدير Excel</button>
+<button class="btn-tag" style="background:var(--secondary);color:white;width:100%;margin-top:5px;" onclick="resetForm()">🔄 مسح السجل الحالي</button>
 </div>
 </div>
 
-<!-- المقررات -->
-<div id="courses" class="tab-content">
-<div class="course-box">
-<h3>الوحدة 1: مدخل إلى MARC21</h3>
-<p>• مفهوم التسجيل الببليوغرافي</p>
-<p>• البنية العامة للسجل</p>
-</div>
-
-<div class="course-box">
-<h3>الوحدة 2: الحقول الأساسية</h3>
-<p>020 – ردمك</p>
-<p>100 – مدخل رئيسي</p>
-<p>245 – بيان العنوان</p>
+<div id="manageRecordsModal" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeManageRecordsModal()">&times;</span>
+<h2>إدارة السجلات المحفوظة</h2>
+<div id="recordsList"></div>
 </div>
 </div>
 
+<footer>برمجة وتطوير: <b>عماد كاظم السعدي</b> &copy; 2024</footer>
 </div>
 
 <script>
+const marcBody = document.getElementById('marcBody');
+const preview = document.getElementById('preview');
+const loader = document.getElementById('loader');
+const manageRecordsModal = document.getElementById('manageRecordsModal');
+const recordsListDiv = document.getElementById('recordsList');
+const LOCAL_STORAGE_KEY_CURRENT = 'emad_marc_data_current';
+const LOCAL_STORAGE_KEY_LIST = 'emad_marc_saved_list';
 
-function showTab(tabId){
-document.querySelectorAll('.tab-content').forEach(tab=>tab.classList.remove('active'));
-document.getElementById(tabId).classList.add('active');
-}
-
-const bibAlexFields = [
-
-{tag:'001',ind1:'#',ind2:'#',sub:'',label:'001 - رقم تحكم'},
-{tag:'005',ind1:'#',ind2:'#',sub:'',label:'005 - تاريخ تعديل'},
-{tag:'008',ind1:'#',ind2:'#',sub:'',label:'008 - بيانات ثابتة'},
-
-{tag:'020',ind1:'#',ind2:'#',sub:'$a ',label:'020 - ردمك'},
-{tag:'040',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'040 - مصدر الفهرسة'},
-{tag:'082',ind1:'0',ind2:'#',sub:'$a ',label:'082 - ديوي'},
-
-{tag:'100',ind1:'1',ind2:'#',sub:'$a ',label:'100 - مدخل رئيسي شخص'},
-{tag:'110',ind1:'2',ind2:'#',sub:'$a ',label:'110 - هيئة'},
-{tag:'111',ind1:'2',ind2:'#',sub:'$a ',label:'111 - مؤتمر'},
-
-{tag:'245',ind1:'1',ind2:'0',sub:'$a $b $c ',label:'245 - بيان العنوان'},
-{tag:'246',ind1:'3',ind2:'#',sub:'$a ',label:'246 - عنوان آخر'},
-{tag:'250',ind1:'#',ind2:'#',sub:'$a ',label:'250 - بيان الطبعة'},
-{tag:'264',ind1:'#',ind2:'1',sub:'$a $b $c ',label:'264 - بيانات النشر'},
-{tag:'300',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'300 - الوصف المادي'},
-
-{tag:'490',ind1:'1',ind2:'#',sub:'$a ',label:'490 - السلسلة'},
-{tag:'500',ind1:'#',ind2:'#',sub:'$a ',label:'500 - ملاحظة عامة'},
-{tag:'504',ind1:'#',ind2:'#',sub:'$a ',label:'504 - مراجع'},
-
-{tag:'600',ind1:'1',ind2:'#',sub:'$a ',label:'600 - موضوع شخص'},
-{tag:'610',ind1:'2',ind2:'#',sub:'$a ',label:'610 - موضوع هيئة'},
-{tag:'650',ind1:'#',ind2:'0',sub:'$a ',label:'650 - موضوع عام'},
-{tag:'651',ind1:'#',ind2:'0',sub:'$a ',label:'651 - موضوع جغرافي'},
-
-{tag:'700',ind1:'1',ind2:'#',sub:'$a ',label:'700 - مدخل إضافي شخص'},
-{tag:'710',ind1:'2',ind2:'#',sub:'$a ',label:'710 - مدخل إضافي هيئة'},
-
-{tag:'900',ind1:'#',ind2:'#',sub:'$a ',label:'900 - حقل محلي'},
-{tag:'942',ind1:'#',ind2:'#',sub:'$a ',label:'942 - بيانات كوها'},
-{tag:'952',ind1:'#',ind2:'#',sub:'$a ',label:'952 - بيانات النسخة'}
-
-];
-
-window.onload=()=>{
-const selector=document.getElementById('fieldSelector');
-bibAlexFields.forEach((f,i)=>{
-let option=document.createElement('option');
-option.value=i;
-option.textContent=f.label;
-selector.appendChild(option);
-});
+const MARC_GUIDE = {
+"100":"1# - مدخل رئيسي: اسم شخص","110":"2# - مدخل رئيسي: اسم هيئة",
+"111":"2# - مدخل رئيسي: اسم مؤتمر","130":"0# - مدخل رئيسي: عنوان موحد",
+"245":"10 - بيان العنوان","246":"30 - عنوان بديل","250":"## - بيان الطبعة",
+"264":"#1 - بيان النشر","300":"## - الوصف المادي","490":"0# - بيان السلسلة",
+"500":"## - تبصرة عامة","504":"## - تبصرة المراجع","505":"0# - تبصرة المحتويات",
+"600":"14 - موضوع: اسم شخص","610":"24 - موضوع: اسم هيئة","611":"24 - موضوع: مؤتمر",
+"650":"#4 - موضوع عام","651":"#4 - اسم جغرافي","700":"1# - مدخل إضافي شخص",
+"710":"2# - مدخل إضافي هيئة","711":"2# - مدخل إضافي مؤتمر"
 };
 
-function addRow(tag='',i1='#',i2='#',data=''){
-const tbody=document.getElementById('marcBody');
-const row=tbody.insertRow();
-row.innerHTML=`
-<td><input class="tag-input" value="${tag}" oninput="updatePreview()"></td>
-<td>
-<input class="ind-input" value="${i1}" oninput="updatePreview()">
-<input class="ind-input" value="${i2}" oninput="updatePreview()">
-</td>
-<td><input class="data-input" value="${data}" oninput="updatePreview()"></td>
-<td><button onclick="this.closest('tr').remove();updatePreview()">🗑️</button></td>
+function addRow(tag,i1,i2,data){
+const tr=document.createElement('tr');
+tr.innerHTML=`
+<td><input type="text" class="tag-input" value="${tag}" oninput="updatePreview()"></td>
+<td><input type="text" style="width:20px;text-align:center;" value="${i1}"> <input type="text" style="width:20px;text-align:center;" value="${i2}"></td>
+<td><input type="text" class="data-input" value="${data}" oninput="updatePreview()"></td>
+<td><button onclick="this.parentElement.parentElement.remove();updatePreview()" style="color:red;border:none;background:none;cursor:pointer;">✖</button></td>
 `;
+marcBody.appendChild(tr);
 updatePreview();
 }
 
-// **تصحيح إضافة الحقل من القائمة بدون مسح التيجان الحالية**
-function addFromSelector(){
-    const idx = parseInt(document.getElementById('fieldSelector').value);
-    if(isNaN(idx)) return;
-    const f = bibAlexFields[idx];
-    addRow(f.tag, f.ind1, f.ind2, f.sub); // يضيف صف جديد فقط
-    document.getElementById('fieldSelector').value = "";
+function addSelectedField(){
+const tag=document.getElementById('fieldSelector').value;
+if(!tag) return;
+const description=MARC_GUIDE[tag];
+const indicatorsMatch=description.match(/(\w#|\w\d|\d#|\d\d)\s-/);
+let i1='#',i2='#';
+if(indicatorsMatch){i1=indicatorsMatch[0].charAt(0);i2=indicatorsMatch[0].charAt(1);}
+addRow(tag,i1,i2,'');
+document.getElementById('fieldSelector').value="";
 }
 
 function updatePreview(){
-let text="LDR 00000nam a2200000 i 4500\n";
-document.querySelectorAll('#marcBody tr').forEach(row=>{
+const rows=document.querySelectorAll('#marcBody tr');
+let previewText="LDR 00000nam a2200000 u 4500\n";
+rows.forEach(row=>{
 const tag=row.querySelector('.tag-input').value;
-const inds=row.querySelectorAll('.ind-input');
+const indicators=Array.from(row.querySelectorAll('input[style*="width:20px"]')).map(i=>i.value||'#').join('');
 const data=row.querySelector('.data-input').value;
-if(tag) text+=`${tag} ${inds[0].value}${inds[1].value} ${data}\n`;
+previewText+=`${tag} ${indicators} ${data}\n`;
 });
-document.getElementById('preview').textContent=text;
+preview.textContent=previewText;
+saveCurrentSession();
 }
 
-function fetchDemo(){
-addRow('245','1','0','$a عنوان تجريبي');
+function getCurrentTableData(){
+const rows=document.querySelectorAll('#marcBody tr');
+const dataToSave=[];
+rows.forEach(row=>{
+const tag=row.querySelector('.tag-input').value;
+const inds=row.querySelectorAll('input[style*="width:20px"]');
+const i1=inds[0].value||'#';
+const i2=inds[1].value||'#';
+const val=row.querySelector('.data-input').value;
+dataToSave.push({tag,i1,i2,val});
+});
+return dataToSave;
+}
+
+function saveCurrentSession(){localStorage.setItem(LOCAL_STORAGE_KEY_CURRENT,JSON.stringify(getCurrentTableData()));}
+function loadCurrentSession(){const savedData=localStorage.getItem(LOCAL_STORAGE_KEY_CURRENT);if(savedData){const data=JSON.parse(savedData);data.forEach(item=>addRow(item.tag,item.i1,item.i2,item.val));}}
+
+function saveCurrentRecordPrompt(){
+const recordName=prompt("أدخل اسماً للسجل:");
+if(recordName && recordName.trim()!==""){
+const data=getCurrentTableData();
+localStorage.setItem(`emad_marc_${recordName.trim()}`,JSON.stringify(data));
+let savedList=JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST))||[];
+if(!savedList.includes(recordName.trim())){savedList.push(recordName.trim());localStorage.setItem(LOCAL_STORAGE_KEY_LIST,JSON.stringify(savedList));}
+alert(`تم حفظ السجل باسم: ${recordName}`);
+}else{alert("لم يتم الحفظ. الاسم مطلوب.");}
+}
+
+function openManageRecordsModal(){
+recordsListDiv.innerHTML='';
+const savedList=JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST))||[];
+if(savedList.length===0){recordsListDiv.innerHTML='<p>لا يوجد سجلات محفوظة حالياً.</p>';}
+else{
+savedList.forEach(name=>{
+const itemDiv=document.createElement('div');itemDiv.classList.add('record-item');
+itemDiv.innerHTML=`<span>${name}</span><div><button onclick="loadSpecificRecord('${name}')">تحميل</button><button onclick="deleteRecord('${name}')" style="color:red;">حذف</button></div>`;
+recordsListDiv.appendChild(itemDiv);
+});
+}
+manageRecordsModal.style.display="block";
+}
+
+function closeManageRecordsModal(){manageRecordsModal.style.display="none";}
+function loadSpecificRecord(name){
+const savedData=localStorage.getItem(`emad_marc_${name}`);
+if(savedData){if(confirm(`هل أنت متأكد من تحميل السجل "${name}"؟ سيتم مسح السجل الحالي.`)){marcBody.innerHTML="";const data=JSON.parse(savedData);data.forEach(item=>addRow(item.tag,item.i1,item.i2,item.val));updatePreview();closeManageRecordsModal();alert(`تم تحميل السجل: ${name}`);}}
+}
+
+function deleteRecord(name){
+if(confirm(`هل أنت متأكد من حذف السجل "${name}" نهائياً؟`)){
+localStorage.removeItem(`emad_marc_${name}`);
+let savedList=JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY_LIST))||[];
+savedList=savedList.filter(item=>item!==name);
+localStorage.setItem(LOCAL_STORAGE_KEY_LIST,JSON.stringify(savedList));
+openManageRecordsModal();
+alert(`تم حذف السجل: ${name}`);
+}
+}
+
+function resetForm(){
+if(confirm("هل أنت متأكد من مسح جميع البيانات في السجل الحالي؟")){
+marcBody.innerHTML="";
+localStorage.removeItem(LOCAL_STORAGE_KEY_CURRENT);
+updatePreview();
+}
 }
 
 function exportExcel(){
-let rows=[["التاج","م1","م2","البيانات"]];
-document.querySelectorAll('#marcBody tr').forEach(tr=>{
-const tag=tr.querySelector('.tag-input').value;
-const inds=tr.querySelectorAll('.ind-input');
-const data=tr.querySelector('.data-input').value;
-rows.push([tag,inds[0].value,inds[1].value,data]);
-});
-const ws=XLSX.utils.aoa_to_sheet(rows);
 const wb=XLSX.utils.book_new();
-XLSX.utils.book_append_sheet(wb,ws,"MARC");
-XLSX.writeFile(wb,"MARC_Record.xlsx");
+const data=[["Tag","I1","I2","Data"]];
+document.querySelectorAll('#marcBody tr').forEach(row=>{
+const tag=row.querySelector('.tag-input').value;
+const inds=row.querySelectorAll('input[style*="width:20px"]');
+const i1=inds[0].value||'#';
+const i2=inds[1].value||'#';
+const val=row.querySelector('.data-input').value;
+data.push([tag,i1,i2,val]);
+});
+const ws=XLSX.utils.aoa_to_sheet(data);
+XLSX.utils.book_append_sheet(wb,ws,"MARC_Record");
+XLSX.writeFile(wb,"MARC_Export_Emad.xlsx");
 }
 
-function exportText(){
-const marcText=document.getElementById('preview').textContent;
-const blob=new Blob([marcText],{type:"text/plain;charset=utf-8;"});
-const link=document.createElement("a");
-link.href=URL.createObjectURL(blob);
-link.download="MARC_Record.txt";
-document.body.appendChild(link);
-link.click();
-document.body.removeChild(link);
-URL.revokeObjectURL(link.href);
+function populateSelector(){
+const selector=document.getElementById('fieldSelector');
+for(let tag in MARC_GUIDE){
+let opt=document.createElement('option');
+opt.value=tag;
+opt.innerHTML=MARC_GUIDE[tag];
+selector.appendChild(opt);
+}
 }
 
-function saveRecord(){
-localStorage.setItem('last_record',document.getElementById('preview').textContent);
-alert("تم الحفظ");
-}
-
-function clearForm(){
-document.getElementById('marcBody').innerHTML='';
-updatePreview();
-}
-
+window.onload=()=>{
+populateSelector();
+loadCurrentSession();
+};
 </script>
-
 </body>
 </html>
