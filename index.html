@@ -1,308 +1,230 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
-    <!-- مكتبة تصدير إكسل -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    function exportText() {
-    // نجلب النص الكامل من صندوق المعاينة
-    const marcText = document.getElementById('preview').textContent;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
 
-    // نحول النص إلى ملف Blob
-    const blob = new Blob([marcText], { type: "text/plain;charset=utf-8;" });
+<!-- مكتبة Excel -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-    // إنشاء رابط تحميل مؤقت
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
+<style>
+:root { --primary:#0f172a; --secondary:#e11d48; --accent:#f59e0b; --success:#10b981; --light:#f1f5f9; --border:#cbd5e1; }
 
-    // اسم الملف
-    link.download = "Emad_AlSaadi_MARC_Record.txt";
+body { font-family:'Segoe UI', Tahoma; background:#f8fafc; margin:0; padding:20px; color:#334155; }
 
-    // تنفيذ التحميل
-    document.body.appendChild(link);
-    link.click();
+.container { max-width:1550px; margin:auto; background:white; padding:30px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.08); border-top:10px solid var(--primary); }
 
-    // تنظيف
-    document.body.removeChild(link);
-}
-    <button class="action-btn btn-excel" onclick="exportText()">📄 تصدير بصيغة Text (.txt)</button>
-    <style>
-        .tabs-bar{
-    display:flex;
-    gap:10px;
-    margin-bottom:20px;
-}
-.tabs-bar button{
-    padding:10px 15px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    background:#e2e8f0;
-    font-weight:bold;
-}
-.tab-content{
-    display:none;
-}
-.tab-content.active{
-    display:block;
-}
-.course-box{
-    background:#f8fafc;
-    padding:20px;
-    border-radius:12px;
-    border:1px solid #cbd5e1;
-    margin-bottom:15px;
-}
-        :root { --primary: #0f172a; --secondary: #e11d48; --accent: #f59e0b; --success: #10b981; --light: #f1f5f9; --border: #cbd5e1; }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #334155; }
-        .container { max-width: 1550px; margin: auto; background: white; padding: 30px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-top: 10px solid var(--primary); }
-        header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
-        header h1 { margin: 0; color: var(--primary); font-size: 1.8em; }
-        .loc-link { background: #fffbeb; border: 1px solid #f59e0b; padding: 8px 15px; border-radius: 8px; text-decoration: none; color: #b45309; font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
-        <div class="tabs-bar">
-    <button onclick="showTab('editor')">📘 محرر MARC</button>
-    <button onclick="showTab('courses')">🎓 المقررات</button>
-    <button onclick="showTab('exercises')">🧠 تمارين</button>
-    <button onclick="showTab('examples')">📂 أمثلة</button>
-    <button onclick="showTab('analysis')">📊 تحليل</button>
-</div>
-        .search-engine { background: var(--primary); padding: 20px; border-radius: 12px; display: flex; gap: 10px; margin-bottom: 25px; }
-        .search-engine input { flex: 1; padding: 12px 15px; border-radius: 6px; border: none; font-size: 1em; outline: none; }
-        .btn-z39 { background: var(--accent); color: var(--primary); padding: 12px 25px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        .main-layout { display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        .toolbar-group { background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--border); }
-        .toolbar-group h4 { margin: 0 0 10px 0; font-size: 0.95em; color: #475569; }
-        .btns-flex { display: flex; gap: 8px; flex-wrap: wrap; }
-        .btn-tag { padding: 6px 12px; font-size: 0.85em; background: white; border: 1px solid #94a3b8; border-radius: 4px; cursor: pointer; font-weight: 600; }
-        .marc-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .marc-table th { background: var(--primary); color: white; padding: 12px; text-align: right; font-size: 0.9em; }
-        .marc-table td { border-bottom: 1px solid #e2e8f0; padding: 10px; }
-        .tag-input { width: 55px; text-align: center; border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px; font-weight: bold; color: var(--secondary); }
-        .ind-input { width: 30px; text-align: center; border: 1px solid #cbd5e1; padding: 8px; border-radius: 4px; margin: 0 2px; }
-        .data-input { width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 4px; direction: rtl; font-size: 0.95em; }
-        .side-panel { display: flex; flex-direction: column; gap: 15px; position: sticky; top: 20px; }
-        .preview-box { background: #1e293b; color: #38bdf8; padding: 20px; border-radius: 12px; font-family: monospace; direction: ltr; text-align: left; min-height: 350px; border-left: 6px solid var(--accent); white-space: pre-wrap; font-size: 0.9em; overflow-y: auto; }
-        .action-btn { width: 100%; padding: 14px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; color: white; }
-        .btn-save { background: #2563eb; }
-        .btn-excel { background: var(--success); }
-        .btn-clear { background: var(--secondary); }
-        .field-select { width: 100%; border: 2px solid var(--accent); padding: 10px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-    </style>
+header { text-align:center; margin-bottom:25px; }
+
+.tabs-bar { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.tabs-bar button { padding:10px 15px; border:none; border-radius:8px; cursor:pointer; background:#e2e8f0; font-weight:bold; }
+
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+.course-box { background:#f8fafc; padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:15px; }
+
+.search-engine { background:var(--primary); padding:20px; border-radius:12px; display:flex; gap:10px; margin-bottom:25px; }
+.search-engine input { flex:1; padding:12px; border-radius:6px; border:none; }
+
+.btn-z39 { background:var(--accent); color:black; padding:12px 25px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+
+.main-layout { display:grid; grid-template-columns:1fr 420px; gap:30px; }
+
+.toolbar-group { background:var(--light); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--border); }
+
+.btn-tag { padding:6px 12px; font-size:0.85em; background:white; border:1px solid #94a3b8; border-radius:4px; cursor:pointer; font-weight:600; }
+
+.marc-table { width:100%; border-collapse:collapse; margin-top:10px; }
+.marc-table th { background:var(--primary); color:white; padding:10px; }
+.marc-table td { border-bottom:1px solid #e2e8f0; padding:8px; }
+
+.tag-input { width:55px; text-align:center; }
+.ind-input { width:30px; text-align:center; }
+.data-input { width:100%; }
+
+.side-panel { display:flex; flex-direction:column; gap:15px; }
+
+.preview-box { background:#1e293b; color:#38bdf8; padding:20px; border-radius:12px; font-family:monospace; direction:ltr; min-height:350px; white-space:pre-wrap; }
+
+.action-btn { width:100%; padding:14px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; color:white; }
+
+.btn-save { background:#2563eb; }
+.btn-excel { background:var(--success); }
+.btn-clear { background:var(--secondary); }
+
+.field-select { width:100%; padding:10px; border-radius:6px; font-weight:bold; }
+</style>
 </head>
+
 <body>
-<div id="courses" class="tab-content">
-    <div class="course-box">
-        <h3>الوحدة 1: مدخل إلى MARC21</h3>
-        <p>• مفهوم التسجيل الببليوغرافي</p>
-        <p>• البنية العامة للسجل (LDR – Control Fields – Data Fields)</p>
-        <p>• الفرق بين AACR2 و RDA</p>
-    </div>
 
-    <div class="course-box">
-        <h3>الوحدة 2: الحقول الأساسية</h3>
-        <p>020 – ردمك</p>
-        <p>100 – مدخل رئيسي اسم شخص</p>
-        <p>245 – بيان العنوان</p>
-        <p>264 – بيانات النشر</p>
-        <p>300 – الوصف المادي</p>
-    </div>
-
-    <div class="course-box">
-        <h3>الوحدة 3: الموضوعات</h3>
-        <p>600 – موضوع اسم شخص</p>
-        <p>610 – موضوع هيئة</p>
-        <p>650 – مصطلح موضوعي</p>
-    </div>
-</div>
 <div class="container">
-    <header>
-       <header>
-        <h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
-        <a href="https://www.bibalex.org/als/marcA/homepage/home.html" target="_blank" class="loc-link">🔗 مرجع مكتبة الإسكندرية - دليل مارك العربي</a>
-    </header>
-        <div id="editor" class="tab-content active">
-    <div class="search-engine">
-        <input type="text" id="queryInput" placeholder="أدخل عنوان الكتاب أو الردمك للجلب التجريبي...">
-        <button class="btn-z39" onclick="fetchDemo()">📡 جلب بيانات محاكاة</button>
-    </div>
 
-    <div class="main-layout">
-        <div class="editor">
-            <div class="toolbar-group">
-                <h4>مساعد مكتبة الإسكندرية (اختر حقل لإضافته فوراً):</h4>
-                <select id="fieldSelector" class="field-select" onchange="addFromSelector()">
-                    <option value="">-- ابحث عن حقل (بيانات ببليوغرافية أو محلية 9XX) --</option>
-                </select>
-            </div>
+<header>
+<h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
+</header>
 
-            <div class="toolbar-group">
-                <h4>اختصارات سريعة:</h4>
-                <div class="btns-flex">
-                    <button class="btn-tag" onclick="addRow('020','#','#','$a ')">020 ردمك</button>
-                    <button class="btn-tag" onclick="addRow('100','1','#','$a ')">100 مؤلف</button>
-                    <button class="btn-tag" onclick="addRow('245','1','0','$a $b $c ')">245 عنوان</button>
-                    <button class="btn-tag" onclick="addRow('264','#','1','$a $b $c ')">264 نشر</button>
-                    <button class="btn-tag" onclick="addRow('300','#','#','$a $b $c ')">300 مادي</button>
-                    <button class="btn-tag" onclick="addRow('952','#','#','$p $a $b $c $y ')">952 جرد</button>
-                </div>
-            </div>
+<!-- التبويبات -->
+<div class="tabs-bar">
+<button onclick="showTab('editor')">📘 محرر MARC</button>
+<button onclick="showTab('courses')">🎓 المقررات</button>
+</div>
 
-            <table class="marc-table">
-                <thead><tr><th>التاج</th><th>مؤشرات</th><th>البيانات الفرعية</th><th></th></tr></thead>
-                <tbody id="marcBody"></tbody>
-            </table>
-        </div>
+<!-- المحرر -->
+<div id="editor" class="tab-content active">
 
-        <div class="side-panel">
-            <div class="preview-box" id="preview">LDR 00000nam a2200000 i 4500</div>
-            <button class="action-btn btn-save" onclick="saveRecord()">💾 حفظ السجل محلياً</button>
-            <button class="action-btn btn-excel" onclick="exportExcel()">📊 تصدير إلى Excel</button>
-            <button class="action-btn btn-clear" onclick="clearForm()">🔄 تفريغ السجل</button>
-        </div>
-    </div>
+<div class="search-engine">
+<input type="text" id="queryInput" placeholder="أدخل عنوان الكتاب...">
+<button class="btn-z39" onclick="fetchDemo()">📡 جلب بيانات</button>
+</div>
+
+<div class="main-layout">
+
+<div>
+<div class="toolbar-group">
+<select id="fieldSelector" class="field-select" onchange="addFromSelector()">
+<option value="">-- اختر حقل --</option>
+</select>
+</div>
+
+<table class="marc-table">
+<thead>
+<tr><th>التاج</th><th>مؤشرات</th><th>البيانات</th><th></th></tr>
+</thead>
+<tbody id="marcBody"></tbody>
+</table>
+</div>
+
+<div class="side-panel">
+<div class="preview-box" id="preview">LDR 00000nam a2200000 i 4500</div>
+
+<button class="action-btn btn-save" onclick="saveRecord()">💾 حفظ</button>
+<button class="action-btn btn-excel" onclick="exportExcel()">📊 Excel</button>
+<button class="action-btn btn-excel" onclick="exportText()">📄 Text</button>
+<button class="action-btn btn-clear" onclick="clearForm()">🔄 تفريغ</button>
+</div>
+
+</div>
+</div>
+
+<!-- المقررات -->
+<div id="courses" class="tab-content">
+<div class="course-box">
+<h3>الوحدة 1: مدخل إلى MARC21</h3>
+<p>• مفهوم التسجيل الببليوغرافي</p>
+<p>• البنية العامة للسجل</p>
+</div>
+
+<div class="course-box">
+<h3>الوحدة 2: الحقول الأساسية</h3>
+<p>020 – ردمك</p>
+<p>100 – مدخل رئيسي</p>
+<p>245 – بيان العنوان</p>
+</div>
+</div>
+
 </div>
 
 <script>
-    function showTab(tabId){
-    document.querySelectorAll('.tab-content').forEach(tab=>{
-        tab.classList.remove('active');
-    });
-    document.getElementById(tabId).classList.add('active');
+
+function showTab(tabId){
+document.querySelectorAll('.tab-content').forEach(tab=>tab.classList.remove('active'));
+document.getElementById(tabId).classList.add('active');
 }
-    // المصفوفة الشاملة للحقول
-    const bibAlexFields = [
-        { tag: '010', ind1: '#', ind2: '#', sub: '$a ', label: '010 - رقم ضبط مكتبة الكونجرس' },
-        { tag: '020', ind1: '#', ind2: '#', sub: '$a $q $c ', label: '020 - ردمك (ISBN)' },
-        { tag: '040', ind1: '#', ind2: '#', sub: '$a $b $e $c ', label: '040 - مصدر الفهرسة' },
-        { tag: '050', ind1: '#', ind2: '4', sub: '$a $b ', label: '050 - تصنيف مكتبة الكونجرس' },
-        { tag: '082', ind1: '0', ind2: '4', sub: '$a $b $2 ', label: '082 - تصنيف ديوي العشري' },
-        { tag: '100', ind1: '1', ind2: '#', sub: '$a $d $e $q ', label: '100 - مدخل رئيسي اسم شخص' },
-        { tag: '110', ind1: '2', ind2: '#', sub: '$a $b $c ', label: '110 - مدخل رئيسي اسم هيئة' },
-        { tag: '111', ind1: '2', ind2: '#', sub: '$a $n $d $c ', label: '111 - مدخل رئيسي اسم مؤتمر' },
-        { tag: '130', ind1: '0', ind2: '#', sub: '$a $l $m $n $p ', label: '130 - مدخل رئيسي: عنوان موحد' },
-        { tag: '245', ind1: '1', ind2: '0', sub: '$a $b $c ', label: '245 - بيان العنوان' },
-        { tag: '246', ind1: '3', ind2: '0', sub: '$a $b $n $p ', label: '246 - شكل متغير للعنوان (عنوان الغلاف/الظهر)' },
-        { tag: '250', ind1: '#', ind2: '#', sub: '$a $b ', label: '250 - بيان الطبعة' },
-        { tag: '260', ind1: '#', ind2: '#', sub: '$a $b $c ', label: '260 - بيان النشر (قديم)' },
-        { tag: '264', ind1: '#', ind2: '1', sub: '$a $b $c ', label: '264 - بيان النشر (RDA)' },
-        { tag: '300', ind1: '#', ind2: '#', sub: '$a $b $c $e ', label: '300 - الوصف المادي' },
-        { tag: '336', ind1: '#', ind2: '#', sub: '$a $b $2 ', label: '336 - نوع المحتوى' },
-        { tag: '337', ind1: '#', ind2: '#', sub: '$a $b $2 ', label: '337 - نوع الوسيط' },
-        { tag: '490', ind1: '1', ind2: '#', sub: '$a $v ', label: '490 - بيان السلسلة' },
-        { tag: '500', ind1: '#', ind2: '#', sub: '$a ', label: '500 - تبصرة عامة' },
-        { tag: '504', ind1: '#', ind2: '#', sub: '$a ', label: '504 - تبصرة ببليوغرافية' },
-        { tag: '505', ind1: '0', ind2: '#', sub: '$a $t ', label: '505 - تبصرة المحتويات' },
-        { tag: '600', ind1: '1', ind2: '4', sub: '$a $d $t $v $x $y $z ', label: '600 - موضوع: اسم شخص' },
-        { tag: '610', ind1: '2', ind2: '4', sub: '$a $b $v $x $y $z ', label: '610 - موضوع: اسم هيئة' },
-        { tag: '611', ind1: '2', ind2: '4', sub: '$a $n $d $c $v $x $y $z ', label: '611 - موضوع: اسم مؤتمر' },
-        { tag: '650', ind1: '#', ind2: '4', sub: '$a $x $v $y $z ', label: '650 - موضوع مصطلح عام' },
-        { tag: '700', ind1: '1', ind2: '#', sub: '$a $d $e $t ', label: '700 - مدخل إضافي اسم شخص' },
-        { tag: '710', ind1: '2', ind2: '#', sub: '$a $b $e $4 ', label: '710 - مدخل إضافي: اسم هيئة' },
-        { tag: '711', ind1: '2', ind2: '#', sub: '$a $n $d $c $e $j ', label: '711 - مدخل إضافي: اسم مؤتمر' },
-        { tag: '900', ind1: '#', ind2: '#', sub: '$a ', label: '900 - رقم تسجيل محلي' },
-        { tag: '942', ind1: '#', ind2: '#', sub: '$c ', label: '942 - نوع المادة (نظام)' },
-        { tag: '952', ind1: '#', ind2: '#', sub: '$a $b $c $p $y ', label: '952 - بيانات النسخ والباركود' }
-    ];
 
-    window.onload = () => {
-        const selector = document.getElementById('fieldSelector');
-        bibAlexFields.forEach((field, index) => {
-            let option = document.createElement('option');
-            option.value = index;
-            option.textContent = field.label;
-            selector.appendChild(option);
-        });
-    };
+const bibAlexFields = [
+{ tag:'020', ind1:'#', ind2:'#', sub:'$a ', label:'020 - ردمك' },
+{ tag:'100', ind1:'1', ind2:'#', sub:'$a ', label:'100 - مؤلف' },
+{ tag:'245', ind1:'1', ind2:'0', sub:'$a $b $c ', label:'245 - عنوان' },
+{ tag:'264', ind1:'#', ind2:'1', sub:'$a $b $c ', label:'264 - نشر' },
+{ tag:'300', ind1:'#', ind2:'#', sub:'$a $b $c ', label:'300 - مادي' }
+];
 
-    function addRow(tag = '', i1 = '#', i2 = '#', data = '') {
-        const tbody = document.getElementById('marcBody');
-        const row = tbody.insertRow();
-        row.innerHTML = `
-            <td><input type="text" class="tag-input" value="${tag}" oninput="updatePreview()"></td>
-            <td>
-                <input type="text" class="ind-input" value="${i1}" oninput="updatePreview()">
-                <input type="text" class="ind-input" value="${i2}" oninput="updatePreview()">
-            </td>
-            <td><input type="text" class="data-input" value="${data}" oninput="updatePreview()"></td>
-            <td><button onclick="this.parentElement.parentElement.remove(); updatePreview();" style="border:none; background:none; cursor:pointer;">🗑️</button></td>
-        `;
-        updatePreview();
-    }
+window.onload = ()=>{
+const selector=document.getElementById('fieldSelector');
+bibAlexFields.forEach((f,i)=>{
+let option=document.createElement('option');
+option.value=i;
+option.textContent=f.label;
+selector.appendChild(option);
+});
+};
 
-    function addFromSelector() {
-        const idx = document.getElementById('fieldSelector').value;
-        if(idx === "") return;
-        const f = bibAlexFields[idx];
-        addRow(f.tag, f.ind1, f.ind2, f.sub);
-        document.getElementById('fieldSelector').value = "";
-    }
+function addRow(tag='',i1='#',i2='#',data=''){
+const tbody=document.getElementById('marcBody');
+const row=tbody.insertRow();
+row.innerHTML=`
+<td><input class="tag-input" value="${tag}" oninput="updatePreview()"></td>
+<td>
+<input class="ind-input" value="${i1}" oninput="updatePreview()">
+<input class="ind-input" value="${i2}" oninput="updatePreview()">
+</td>
+<td><input class="data-input" value="${data}" oninput="updatePreview()"></td>
+<td><button onclick="this.parentElement.parentElement.remove();updatePreview()">🗑️</button></td>
+`;
+updatePreview();
+}
 
-    function updatePreview() {
-        let text = "LDR 00000nam a2200000 i 4500\n";
-        document.querySelectorAll('#marcBody tr').forEach(row => {
-            const tag = row.querySelector('.tag-input').value;
-            const inds = row.querySelectorAll('.ind-input');
-            const data = row.querySelector('.data-input').value;
-            if(tag) text += `${tag} ${inds[0].value}${inds[1].value} ${data}\n`;
-        });
-        document.getElementById('preview').textContent = text;
-    }
+function addFromSelector(){
+const idx=document.getElementById('fieldSelector').value;
+if(idx==="") return;
+const f=bibAlexFields[idx];
+addRow(f.tag,f.ind1,f.ind2,f.sub);
+document.getElementById('fieldSelector').value="";
+}
 
-   function fetchDemo() {
-        // نستخدم المتغير 'q' لجلب ما كتبه المستخدم في حقل البحث
-        const q = document.getElementById('queryInput').value || "عنوان افتراضي";
-        
-        clearForm(); // نمسح كل الحقول السابقة أولاً
-        
-        // نستخدم المتغير 'q' في حقل العنوان 245
-        addRow('020', '#', '#', '$a '); // أصبح فارغاً
-        addRow('100', '1', '#', '$a '); // أصبح فارغاً
-        addRow('245', '1', '0', `$a ${q} : $b دراسة في قواعد مارك 21 / $c تأليف المؤلف.`); // أصبح ديناميكياً
-        addRow('264', '#', '1', '$a الإسكندرية : $b دار المعرفة الجامعية، $c 2024.'); // هذه البيانات ثابتة حالياً
-        addRow('300', '#', '#', '$a 250 ص. ؛ $c 24 سم.'); // هذه البيانات ثابتة حالياً
-        addRow('952', '#', '#', '$a MAIN $b LIB $c SHELF-1 $p 50001234 $y BOOK');
-    }
+function updatePreview(){
+let text="LDR 00000nam a2200000 i 4500\n";
+document.querySelectorAll('#marcBody tr').forEach(row=>{
+const tag=row.querySelector('.tag-input').value;
+const inds=row.querySelectorAll('.ind-input');
+const data=row.querySelector('.data-input').value;
+if(tag) text+=`${tag} ${inds[0].value}${inds[1].value} ${data}\n`;
+});
+document.getElementById('preview').textContent=text;
+}
 
+function fetchDemo(){
+clearForm();
+addRow('245','1','0','$a عنوان تجريبي');
+}
 
-    function exportExcel() {
-        let rows = [["التاج", "مؤشر 1", "مؤشر 2", "الحقول الفرعية"]];
-        document.querySelectorAll('#marcBody tr').forEach(tr => {
-            const tag = tr.querySelector('.tag-input').value;
-            const inds = tr.querySelectorAll('.ind-input');
-            const data = tr.querySelector('.data-input').value;
-            rows.push([tag, inds[0].value, inds[1].value, data]);
-        });
-        const worksheet = XLSX.utils.aoa_to_sheet(rows);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "MARC_Data");
-        XLSX.writeFile(workbook, "Emad_AlSaadi_Cataloging.xlsx");
-    }
+function exportExcel(){
+let rows=[["التاج","م1","م2","البيانات"]];
+document.querySelectorAll('#marcBody tr').forEach(tr=>{
+const tag=tr.querySelector('.tag-input').value;
+const inds=tr.querySelectorAll('.ind-input');
+const data=tr.querySelector('.data-input').value;
+rows.push([tag,inds[0].value,inds[1].value,data]);
+});
+const ws=XLSX.utils.aoa_to_sheet(rows);
+const wb=XLSX.utils.book_new();
+XLSX.utils.book_append_sheet(wb,ws,"MARC");
+XLSX.writeFile(wb,"MARC_Record.xlsx");
+}
 
-    function saveRecord() {
-        localStorage.setItem('last_record', document.getElementById('preview').textContent);
-        alert("تم حفظ السجل في ذاكرة المتصفح بنجاح!");
-    }
+function exportText(){
+const marcText=document.getElementById('preview').textContent;
+const blob=new Blob([marcText],{type:"text/plain;charset=utf-8;"});
+const link=document.createElement("a");
+link.href=URL.createObjectURL(blob);
+link.download="MARC_Record.txt";
+link.click();
+}
 
-    function clearForm() {
-        document.getElementById('marcBody').innerHTML = '';
-        updatePreview();
-    }
+function saveRecord(){
+localStorage.setItem('last_record',document.getElementById('preview').textContent);
+alert("تم الحفظ");
+}
+
+function clearForm(){
+document.getElementById('marcBody').innerHTML='';
+updatePreview();
+}
+
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
