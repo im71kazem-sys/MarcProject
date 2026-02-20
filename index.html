@@ -5,68 +5,166 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة عماد السعدي للفهرسة الاحترافية | MARC21</title>
 
-<!-- مكتبة Excel -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <style>
-:root { --primary:#0f172a; --secondary:#e11d48; --accent:#f59e0b; --success:#10b981; --light:#f1f5f9; --border:#cbd5e1; }
+:root{
+--primary:#0f172a;
+--secondary:#e11d48;
+--accent:#f59e0b;
+--success:#10b981;
+--light:#f1f5f9;
+--border:#cbd5e1;
+}
 
-body { font-family:'Segoe UI', Tahoma; background:#f8fafc; margin:0; padding:20px; color:#334155; }
+body{
+font-family:'Segoe UI',Tahoma;
+background:#f8fafc;
+margin:0;
+padding:20px;
+color:#334155;
+}
 
-.container { max-width:1550px; margin:auto; background:white; padding:30px; border-radius:20px; box-shadow:0 20px 40px rgba(0,0,0,0.08); border-top:10px solid var(--primary); }
+.container{
+max-width:1550px;
+margin:auto;
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 20px 40px rgba(0,0,0,0.08);
+border-top:10px solid var(--primary);
+}
 
-header { text-align:center; margin-bottom:25px; }
+header{text-align:center;margin-bottom:25px;}
 
-.tabs-bar { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
-.tabs-bar button { padding:10px 15px; border:none; border-radius:8px; cursor:pointer; background:#e2e8f0; font-weight:bold; }
+.tabs-bar{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.tabs-bar button{padding:10px 15px;border:none;border-radius:8px;cursor:pointer;background:#e2e8f0;font-weight:bold;}
 
-.tab-content { display:none; }
-.tab-content.active { display:block; }
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-.course-box { background:#f8fafc; padding:20px; border-radius:12px; border:1px solid var(--border); margin-bottom:15px; }
+.course-box{
+background:#f8fafc;
+padding:20px;
+border-radius:12px;
+border:1px solid var(--border);
+margin-bottom:15px;
+}
 
-.search-engine { background:var(--primary); padding:20px; border-radius:12px; display:flex; gap:10px; margin-bottom:25px; }
-.search-engine input { flex:1; padding:12px; border-radius:6px; border:none; }
+.search-engine{
+background:var(--primary);
+padding:20px;
+border-radius:12px;
+display:flex;
+gap:10px;
+margin-bottom:25px;
+}
 
-.btn-z39 { background:var(--accent); color:black; padding:12px 25px; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+.search-engine input{
+flex:1;
+padding:12px;
+border-radius:6px;
+border:none;
+}
 
-.main-layout { display:grid; grid-template-columns:1fr 420px; gap:30px; }
+.btn-z39{
+background:var(--accent);
+color:black;
+padding:12px 25px;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
 
-.toolbar-group { background:var(--light); padding:15px; border-radius:10px; margin-bottom:15px; border:1px solid var(--border); }
+.main-layout{
+display:grid;
+grid-template-columns:1fr 420px;
+gap:30px;
+}
 
-.btn-tag { padding:6px 12px; font-size:0.85em; background:white; border:1px solid #94a3b8; border-radius:4px; cursor:pointer; font-weight:600; }
+.toolbar-group{
+background:var(--light);
+padding:15px;
+border-radius:10px;
+margin-bottom:15px;
+border:1px solid var(--border);
+}
 
-.marc-table { width:100%; border-collapse:collapse; margin-top:10px; }
-.marc-table th { background:var(--primary); color:white; padding:10px; }
-.marc-table td { border-bottom:1px solid #e2e8f0; padding:8px; }
+.btn-tag{
+padding:6px 12px;
+font-size:0.85em;
+background:white;
+border:1px solid #94a3b8;
+border-radius:4px;
+cursor:pointer;
+font-weight:600;
+}
 
-.tag-input { width:55px; text-align:center; }
-.ind-input { width:30px; text-align:center; }
-.data-input { width:100%; }
+.marc-table{
+width:100%;
+border-collapse:collapse;
+margin-top:10px;
+}
 
-.side-panel { display:flex; flex-direction:column; gap:15px; }
+.marc-table th{
+background:var(--primary);
+color:white;
+padding:10px;
+}
 
-.preview-box { background:#1e293b; color:#38bdf8; padding:20px; border-radius:12px; font-family:monospace; direction:ltr; min-height:350px; white-space:pre-wrap; }
+.marc-table td{
+border-bottom:1px solid #e2e8f0;
+padding:8px;
+}
 
-.action-btn { width:100%; padding:14px; border:none; border-radius:8px; cursor:pointer; font-weight:bold; color:white; }
+.tag-input{width:55px;text-align:center;}
+.ind-input{width:30px;text-align:center;}
+.data-input{width:100%;}
 
-.btn-save { background:#2563eb; }
-.btn-excel { background:var(--success); }
-.btn-clear { background:var(--secondary); }
+.side-panel{display:flex;flex-direction:column;gap:15px;}
 
-.field-select { width:100%; padding:10px; border-radius:6px; font-weight:bold; }
+.preview-box{
+background:#1e293b;
+color:#38bdf8;
+padding:20px;
+border-radius:12px;
+font-family:monospace;
+direction:ltr;
+min-height:350px;
+white-space:pre-wrap;
+}
+
+.action-btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-weight:bold;
+color:white;
+}
+
+.btn-save{background:#2563eb;}
+.btn-excel{background:var(--success);}
+.btn-clear{background:var(--secondary);}
+
+.field-select{
+width:100%;
+padding:10px;
+border-radius:6px;
+font-weight:bold;
+}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
 <header>
 <h1>نظام عماد السعدي للفهرسة الاحترافية (MARC21)</h1>
 </header>
 
-<!-- التبويبات -->
 <div class="tabs-bar">
 <button onclick="showTab('editor')">📘 محرر MARC</button>
 <button onclick="showTab('courses')">🎓 المقررات</button>
@@ -91,14 +189,21 @@ header { text-align:center; margin-bottom:25px; }
 
 <table class="marc-table">
 <thead>
-<tr><th>التاج</th><th>مؤشرات</th><th>البيانات</th><th></th></tr>
+<tr>
+<th>التاج</th>
+<th>مؤشرات</th>
+<th>البيانات</th>
+<th></th>
+</tr>
 </thead>
 <tbody id="marcBody"></tbody>
 </table>
 </div>
 
 <div class="side-panel">
-<div class="preview-box" id="preview">LDR 00000nam a2200000 i 4500</div>
+<div class="preview-box" id="preview">
+LDR 00000nam a2200000 i 4500
+</div>
 
 <button class="action-btn btn-save" onclick="saveRecord()">💾 حفظ</button>
 <button class="action-btn btn-excel" onclick="exportExcel()">📊 Excel</button>
@@ -134,15 +239,15 @@ document.querySelectorAll('.tab-content').forEach(tab=>tab.classList.remove('act
 document.getElementById(tabId).classList.add('active');
 }
 
-const bibAlexFields = [
-{ tag:'020', ind1:'#', ind2:'#', sub:'$a ', label:'020 - ردمك' },
-{ tag:'100', ind1:'1', ind2:'#', sub:'$a ', label:'100 - مؤلف' },
-{ tag:'245', ind1:'1', ind2:'0', sub:'$a $b $c ', label:'245 - عنوان' },
-{ tag:'264', ind1:'#', ind2:'1', sub:'$a $b $c ', label:'264 - نشر' },
-{ tag:'300', ind1:'#', ind2:'#', sub:'$a $b $c ', label:'300 - مادي' }
+const bibAlexFields=[
+{tag:'020',ind1:'#',ind2:'#',sub:'$a ',label:'020 - ردمك'},
+{tag:'100',ind1:'1',ind2:'#',sub:'$a ',label:'100 - مؤلف'},
+{tag:'245',ind1:'1',ind2:'0',sub:'$a $b $c ',label:'245 - عنوان'},
+{tag:'264',ind1:'#',ind2:'1',sub:'$a $b $c ',label:'264 - نشر'},
+{tag:'300',ind1:'#',ind2:'#',sub:'$a $b $c ',label:'300 - مادي'}
 ];
 
-window.onload = ()=>{
+window.onload=()=>{
 const selector=document.getElementById('fieldSelector');
 bibAlexFields.forEach((f,i)=>{
 let option=document.createElement('option');
@@ -162,7 +267,7 @@ row.innerHTML=`
 <input class="ind-input" value="${i2}" oninput="updatePreview()">
 </td>
 <td><input class="data-input" value="${data}" oninput="updatePreview()"></td>
-<td><button onclick="this.parentElement.parentElement.remove();updatePreview()">🗑️</button></td>
+<td><button onclick="this.closest('tr').remove();updatePreview()">🗑️</button></td>
 `;
 updatePreview();
 }
@@ -211,7 +316,10 @@ const blob=new Blob([marcText],{type:"text/plain;charset=utf-8;"});
 const link=document.createElement("a");
 link.href=URL.createObjectURL(blob);
 link.download="MARC_Record.txt";
+document.body.appendChild(link);
 link.click();
+document.body.removeChild(link);
+URL.revokeObjectURL(link.href);
 }
 
 function saveRecord(){
