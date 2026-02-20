@@ -302,12 +302,13 @@ row.innerHTML=`
 updatePreview();
 }
 
+// **تصحيح إضافة الحقل من القائمة بدون مسح التيجان الحالية**
 function addFromSelector(){
-const idx=document.getElementById('fieldSelector').value;
-if(idx==="") return;
-const f=bibAlexFields[idx];
-addRow(f.tag,f.ind1,f.ind2,f.sub);
-document.getElementById('fieldSelector').value="";
+    const idx = parseInt(document.getElementById('fieldSelector').value);
+    if(isNaN(idx)) return;
+    const f = bibAlexFields[idx];
+    addRow(f.tag, f.ind1, f.ind2, f.sub); // يضيف صف جديد فقط
+    document.getElementById('fieldSelector').value = "";
 }
 
 function updatePreview(){
@@ -322,7 +323,6 @@ document.getElementById('preview').textContent=text;
 }
 
 function fetchDemo(){
-clearForm();
 addRow('245','1','0','$a عنوان تجريبي');
 }
 
@@ -366,5 +366,3 @@ updatePreview();
 
 </body>
 </html>
-
-
